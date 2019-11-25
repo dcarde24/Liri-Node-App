@@ -13,6 +13,25 @@ let input = process.argv[3];
 
 switch (command) {
     case 'concert-this':
+
+        let concertURL = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=codingbootcamp";
+        axios.get(concertURL).then(function(response) {
+            let data = response.data[0];
+
+            let concertData = [
+                "Artist: " + input,
+                "\nVenue: " + data.venue.name,
+                "\nLocation: " + data.venue.city + ", " + data.venue.region,
+                "\nDate: " + moment(data.datetime).format("MM/DD/YYYY"),
+            ].join("\n");
+
+            console.log(concertData);
+        })
+
+        .catch(function(error) {
+            console.log(error);
+        });
+
     console.log('concert command test');
     break;
     
