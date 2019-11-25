@@ -1,4 +1,34 @@
-require("dotenv").config();
+var dotenv = require("dotenv").config();
 var keys = require("./keys.js");
+var axios = require("axios")
+var Spotify = require("node-spotify-api")
 var spotify = new Spotify(keys.spotify);
+var moment = require("moment");
+var fs = require("fs") 
 
+moment().format();
+
+let command = process.argv[2];
+let input = process.argv[3];
+
+switch (command) {
+    case 'concert-this':
+    console.log('concert command test');
+    break;
+    
+    case 'spotify-this-song':
+    console.log('spotify command test');
+    break;
+    
+    case 'movie-this':
+    console.log('movie command test');
+    break;
+    
+    case 'do-what-it-says':
+    console.log('filesystem command test');
+    break;
+
+    default:
+        console.log("Incorrect Command");
+    
+}
