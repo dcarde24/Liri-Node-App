@@ -21,6 +21,18 @@ switch (command) {
     break;
     
     case 'movie-this':
+
+        axios.get("https://www.omdbapi.com/?t=" + input + "&apikey=5762e051")
+        .then(function(response) {
+            console.log(response.data.Title);
+            console.log(response.data.Year);
+            console.log(response.data.Rated);
+            console.log(response.data.Country);
+            console.log(response.data.Language);
+            console.log(response.data.Plot);
+            console.log(response.data.Actors);
+        })
+
     console.log('movie command test');
     break;
     
