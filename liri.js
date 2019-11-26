@@ -2,7 +2,7 @@ var dotenv = require("dotenv").config();
 var keys = require("./keys.js");
 var axios = require("axios")
 var Spotify = require("node-spotify-api")
-var spotify = new Spotify(keys.spotify);
+// var spotify = new Spotify(keys.spotify);
 var moment = require("moment");
 var fs = require("fs") 
 
@@ -10,6 +10,11 @@ moment().format();
 
 let command = process.argv[2];
 let input = process.argv[3];
+
+let spotify = new Spotify({
+    id: 'f44ec5fe1f9f471cb9826a1a9592c417',
+    secret: '2cb8f8876f7545078ccfdede83543ddb',
+})
 
 switch (command) {
     case 'concert-this':
@@ -36,6 +41,24 @@ switch (command) {
     break;
     
     case 'spotify-this-song':
+
+        spotify.search({type: 'track' , query: input })
+        .then(function(response) {
+            let data = response.tracks.items[0].album;
+
+            let songData = [
+                "Artist" + data.artists[0].name,
+                "\nSong" + input,
+                "\nSpotify Link: " + data.artists[0].external_urls.spotify,
+                "\nAlbum: " + data.name,
+            ].join("\n\n");
+
+            console.log(songData);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+
     console.log('spotify command test');
     break;
     
@@ -56,6 +79,33 @@ switch (command) {
     break;
     
     case 'do-what-it-says':
+
+        fs.readFile("random.txt", "UTF-8", function(error, data) {
+            if (error) {
+                console.log("Error; " + error);
+            } else {
+                let choice = data.split(",")
+                console.log(choice[1]);
+
+                spotify.search({type: 'track' , query: choice[1] })
+        .then(function(response) {
+            let data = response.tracks.items[0].album;
+
+            let songData = [
+                "Artist" + data.artists[0].name,
+                "\nSong" + choice[0],
+                "\nSpotify Link: " + data.artists[0].external_urls.spotify,
+                "\nAlbum: " + data.name,
+            ].join("\n\n");
+
+            console.log(songData);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+            }
+        })
+
     console.log('filesystem command test');
     break;
 
